@@ -211,6 +211,261 @@ button:hover {
     animation: scroll-right 30s linear infinite;
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .hero {
+    padding: 1rem;
+    min-height: 100vh;
+  }
+  
+  .hero-content {
+    max-width: 100%;
+  }
+  
+  h1 {
+    font-size: clamp(2rem, 8vw, 3rem);
+    letter-spacing: 1px;
+  }
+  
+  h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .description {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Mobile Countdown */
+  .countdown {
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  
+  .time-box {
+    min-width: 70px;
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .time-box span {
+    font-size: 1.5rem;
+  }
+  
+  .time-box:not(:last-child)::after {
+    content: "";
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 0.25rem;
+  }
+  
+  /* Mobile Event Details */
+  .event-details {
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .event-details h3 {
+    font-size: 1.1rem;
+  }
+  
+  /* Mobile Map */
+  .map-container {
+    margin: 2rem auto;
+    max-width: 100%;
+  }
+  
+  iframe {
+    height: 250px;
+  }
+  
+  /* Mobile RSVP Section */
+  .rsvp-section {
+    margin: 2rem auto;
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+  
+  .rsvp-section h2 {
+    font-size: 1.2rem;
+  }
+  
+  input {
+    padding: 0.875rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  button {
+    padding: 0.875rem;
+    font-size: 16px;
+  }
+  
+  /* Mobile Image Slider */
+  .slider {
+    height: 300px;
+    margin-bottom: 2rem;
+  }
+  
+  .slide {
+    width: 120px;
+    height: 90px;
+  }
+  
+  .row {
+    gap: 8px;
+  }
+  
+  .row.left {
+    animation: scroll-left 20s linear infinite;
+  }
+  
+  .row.right {
+    animation: scroll-right 20s linear infinite;
+  }
+}
+
+/* Small Mobile (iPhone SE, etc.) */
+@media (max-width: 480px) {
+  .hero {
+    padding: 0.75rem;
+  }
+  
+  h1 {
+    font-size: clamp(1.5rem, 10vw, 2.5rem);
+  }
+  
+  h2 {
+    font-size: 1rem;
+  }
+  
+  .description {
+    font-size: 0.85rem;
+  }
+  
+  .countdown {
+    gap: 0.25rem;
+  }
+  
+  .time-box {
+    min-width: 60px;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .time-box span {
+    font-size: 1.2rem;
+  }
+  
+  .event-details {
+    padding: 1rem;
+  }
+  
+  .map-container {
+    margin: 1.5rem auto;
+  }
+  
+  iframe {
+    height: 200px;
+  }
+  
+  .rsvp-section {
+    margin: 1.5rem auto;
+    padding: 1rem;
+  }
+  
+  .rsvp-section h2 {
+    font-size: 1.1rem;
+  }
+  
+  .rsvp-section h3 {
+    font-size: 1rem;
+  }
+  
+  /* Ultra-small slider */
+  .slider {
+    height: 250px;
+  }
+  
+  .slide {
+    width: 100px;
+    height: 75px;
+  }
+  
+  .row {
+    gap: 6px;
+  }
+}
+
+/* App-like optimizations for mobile browsers */
+@media (max-width: 768px) and (orientation: portrait) {
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Better touch targets */
+  button, input {
+    min-height: 44px; /* iOS touch target recommendation */
+  }
+  
+  /* Optimize for mobile performance */
+  .slide img {
+    transform: translateZ(0); /* Hardware acceleration */
+    backface-visibility: hidden;
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero {
+    min-height: auto;
+    padding: 1rem;
+  }
+  
+  .slider {
+    height: 200px;
+  }
+  
+  .countdown {
+    margin: 1rem 0;
+  }
+  
+  .event-details {
+    margin-top: 1rem;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero-content {
+    max-width: 95%;
+  }
+  
+  .slider {
+    height: 400px;
+  }
+  
+  .slide {
+    width: 160px;
+    height: 120px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .slide img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Dark mode support for mobile browsers */
+@media (prefers-color-scheme: dark) {
+  /* Already dark, but ensure consistency */
+  body {
+    background: radial-gradient(circle at top, #1a1a1a, #000000 80%);
+  }
+}
+
 </style>
 </head>
 
