@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IV-Generous Reunion</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /*background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #c471f5 75%, #fa71cd 100%);*/
+  background: #2f2e2f;
+  min-height: 100vh;
+  color: #1a1a1a;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(250, 113, 205, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+} */
+
+.container {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.hero-content {
+  max-width: 1200px;
+  width: 100%;
+  animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: 
+    linear-gradient(45deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ffc371 100%),
+    linear-gradient(135deg, #ffffff 0%, #e8f4ff 30%, #fff9e6 70%, #ffe0f0 100%);
+  background-size: 200% 200%, 100% 100%;
+  background-position: 0% 0%, 0% 0%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  position: relative;
+  text-shadow: 
+    0 0 80px rgba(255, 255, 255, 0.8),
+    0 0 120px rgba(102, 126, 234, 0.4),
+    0 0 160px rgba(118, 75, 162, 0.3),
+    0 6px 12px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(255, 255, 255, 0.6),
+    inset 0 0 20px rgba(255, 255, 255, 0.3);
+  filter: 
+    drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))
+    drop-shadow(0 0 20px rgba(102, 126, 234, 0.4))
+    brightness(1.1);
+  animation: 
+    glow 3s ease-in-out infinite alternate,
+    gradientShift 8s ease-in-out infinite;
+  text-stroke: 1px rgba(255, 255, 255, 0.1);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+}
+
+/* h1::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: blur(8px);
+  opacity: 0.7;
+  animation: pulse 2s ease-in-out infinite;
+} */
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: 
+    linear-gradient(90deg, 
+      rgba(255, 255, 255, 0.9) 0%, 
+      rgba(102, 126, 234, 0.8) 20%, 
+      rgba(118, 75, 162, 0.8) 40%, 
+      rgba(240, 147, 251, 0.8) 60%, 
+      rgba(255, 255, 255, 0.9) 80%, 
+      rgba(255, 255, 255, 0.9) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2rem;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  text-transform: capitalize;
+  position: relative;
+  text-shadow: 
+    0 0 30px rgba(255, 255, 255, 0.6),
+    0 0 50px rgba(102, 126, 234, 0.3),
+    0 3px 6px rgba(0, 0, 0, 0.3),
+    inset 0 0 15px rgba(255, 255, 255, 0.2);
+  filter: 
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))
+    drop-shadow(0 0 15px rgba(102, 126, 234, 0.3))
+    contrast(1.1);
+  animation: gradientSlide 6s linear infinite;
+  text-stroke: 0.5px rgba(255, 255, 255, 0.2);
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.2);
+}
+
+/* h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  border-radius: 2px;
+  animation: lineGlow 2s ease-in-out infinite;
+} */
+
+@keyframes glow {
+  from {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 20px rgba(102, 126, 234, 0.4)) brightness(1);
+  }
+  to {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 30px rgba(102, 126, 234, 0.6)) brightness(1.2);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradientSlide {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes lineGlow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateX(-50%) scaleX(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1.2);
+  }
+}
+
+.description {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  font-weight: 400;
+}
+
+.countdown-section {
+  margin: 4rem 0;
+  animation: fadeInUp 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.time-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 2rem 1rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.time-box:nth-child(1) { animation-delay: 0.1s; }
+.time-box:nth-child(2) { animation-delay: 0.2s; }
+.time-box:nth-child(3) { animation-delay: 0.3s; }
+.time-box:nth-child(4) { animation-delay: 0.4s; }
+
+.time-box:hover {
+  transform: translateY(-8px) scale(1.02);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.time-box span {
+  display: block;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.time-box div {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+
+.event-details {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeInUp 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+}
+
+.event-details h1 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.map-container {
+  margin: 3rem 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  max-height: 60vh;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.rsvp-section {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeInUp 2s cubic-bezier(0.4, 0, 0.2, 1) 0.8s both;
+}
+
+.rsvp-section h1 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.input-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+button {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.counter {
+  text-align: center;
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.attendee {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
+}
+
+.attendee:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.attendee-name {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 1rem;
+  }
+  
+  .countdown {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .time-box {
+    padding: 1.5rem 1rem;
+  }
+  
+  .input-group {
+    flex-direction: column;
+  }
+  
+  .rsvp-section {
+    padding: 2rem 1.5rem;
+    margin: 2rem 1rem;
+  }
+  
+  .map-container {
+    aspect-ratio: 4/3;
+    max-height: 50vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .countdown {
+    grid-template-columns: 1fr;
+  }
+  
+  .time-box {
+    padding: 1rem;
+  }
+  
+  .map-container {
+    aspect-ratio: 1/1;
+    max-height: 40vh;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <section class="hero">
+    <div class="hero-content">
+      <h1 data-text="You are invited to">You are invited to</h1>
+      <h2>IV–Generous: 20 Years of Memories</h2>
+      <p class="description">
+        Two decades have passed since we shared laughter in the hallways, crammed for exams, and created memories that stayed with us long after graduation.
+        Now, it’s time to come together once again and celebrate the journey that shaped who we are today.
+        We are excited to invite you to the IV–Generous 20th Year Class Reunion — a night of nostalgia, reconnection, and unforgettable moments.  
+        Whether you’ve stayed in touch or it’s been years since you last saw each other, this reunion is the perfect opportunity to reconnect with old friends,
+        relive cherished memories, celebrate milestones and achievements and create new memories together.
+      </p>
+      
+      <div class="countdown-section">
+        <h1>SEE YOU IN...</h1>
+        <div class="countdown">
+          <div class="time-box"><span id="days"></span><div>Days</div></div>
+          <div class="time-box"><span id="hours"></span><div>Hours</div></div>
+          <div class="time-box"><span id="minutes"></span><div>Minutes</div></div>
+          <div class="time-box"><span id="seconds"></span><div>Seconds</div></div>
+        </div>
+      </div>
+      
+      <div class="event-details">
+        <h1>MAY 16, 2026 | 3:00 PM | Nina's Restaurant</h1>
+      </div>
+    </div>
+  </section>
+  
+  <section class="hero">
+    <div class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3855.753328360998!2d120.8966104758589!3d14.895065385626948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ab34545be33b%3A0x290be937fcaae859!2sNina&#39;s%20Fried%20Itik%20And%20Restaurant!5e0!3m2!1sen!2sph!4v1775478894801!5m2!1sen!2sph" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+  
+  <section class="hero">
+    <div class="rsvp-section">
+      <h1>to RSVP input your name below and click Join</h1>
+      <div class="input-group">
+        <input type="text" id="name" placeholder="Enter your full name">
+        <button onclick="addAttendee()">Join</button>
+      </div>
+      
+      <div class="counter">Attendees: <span id="count">0</span></div>
+      <div class="list" id="attendeeList"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyA9Z3TmvbviXlqF4bq5HTezi-vyio9XM-o",
+  authDomain: "rsvp-web-app-ivgen.firebaseapp.com",
+  databaseURL: "https://rsvp-web-app-ivgen-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  projectId: "rsvp-web-app-ivgen",
+  storageBucket: "rsvp-web-app-ivgen.firebasestorage.app",
+  messagingSenderId: "457059517660",
+  appId: "1:457059517660:web:35f333b5a79bfa951da019",
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database().ref("attendees");
+
+function getInitials(name){
+  return name.split(" ").map(n=>n[0]).join("").toUpperCase();
+}
+
+function addAttendee(){
+  const name = document.getElementById('name').value.trim();
+  if(!name) return;
+
+  // prevent duplicates
+  db.once("value", snap=>{
+    let exists=false;
+    snap.forEach(child=>{
+      if(child.val().name.toLowerCase()===name.toLowerCase()){
+        exists=true;
+      }
+    });
+
+    if(!exists){
+      db.push({name});
+    }
+
+    document.getElementById('name').value="";
+  });
+}
+
+// realtime listener
+ db.on("value", snapshot=>{
+  const list=document.getElementById('attendeeList');
+  list.innerHTML="";
+  let count=0;
+
+  snapshot.forEach(child=>{
+    const name=child.val().name;
+    const div=document.createElement('div');
+    div.className="attendee";
+
+    const avatar=document.createElement('div');
+    avatar.className="avatar";
+    avatar.textContent=getInitials(name);
+
+    const text=document.createElement('div');
+    text.className='attendee-name';
+    text.textContent=name;
+
+    div.appendChild(avatar);
+    div.appendChild(text);
+    list.appendChild(div);
+    count++;
+  });
+
+  document.getElementById('count').innerText=count;
+ });
+
+// countdown
+const eventDate=new Date("May 16, 2026 15:00:00").getTime();
+setInterval(()=>{
+  const d=eventDate-new Date().getTime();
+  document.getElementById('days').innerText=Math.floor(d/(1000*60*60*24));
+  document.getElementById('hours').innerText=Math.floor((d%(1000*60*60*24))/(1000*60*60));
+  document.getElementById('minutes').innerText=Math.floor((d%(1000*60*60))/(1000*60));
+  document.getElementById('seconds').innerText=Math.floor((d%(1000*60))/1000);
+},1000);
+</script>
+</body>
+</html>
