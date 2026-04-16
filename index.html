@@ -64,6 +64,11 @@ h2 {
   margin-bottom: 2rem;
 }
 
+.link {
+  opacity: 0.7;
+  margin-bottom: 2rem;
+}
+
 .countdown {
   display: flex;
   justify-content: center;
@@ -236,6 +241,11 @@ button:hover {
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
   }
+
+  .link {
+    font-size: 0.7rem;
+    margin-bottom: 1.5rem;
+  }
   
   /* Mobile Countdown */
   .countdown {
@@ -340,6 +350,10 @@ button:hover {
   
   .description {
     font-size: 0.85rem;
+  }
+
+  .link {
+    font-size: 0.65rem;
   }
   
   .countdown {
@@ -473,7 +487,7 @@ button:hover {
 <section class="hero">
   <div class="hero-content">
     <div class="slider" id="slider"></div>
-    <p>You can get the photos <a href="https://web.facebook.com/media/set/?set=a.462705927074670&type=3&rdid=Fcnn5z4qvkG3Zyp7&share_url=https%3A%2F%2Fweb.facebook.com%2Fshare%2F1BzAVsh1RU%2F%3F_rdc%3D1%26_rdr#">here</a></p>
+    <p class="link">You can get the photos <a href="https://web.facebook.com/media/set/?set=a.462705927074670&type=3&rdid=Fcnn5z4qvkG3Zyp7&share_url=https%3A%2F%2Fweb.facebook.com%2Fshare%2F1BzAVsh1RU%2F%3F_rdc%3D1%26_rdr#">here</a></p>
     <h1>IV-GENEROUS</h1>
     <h2>20 YEAR CLASS REUNION</h2>
 
@@ -482,7 +496,7 @@ button:hover {
     </p>
 
     <div class="event-details">
-      <h3>MAY 16, 2026 | 3:00 PM</h3>
+      <h3>MAY 16, 2026 | 12:00 NN</h3>
       <p>Nina's Restaurant</p>
       <div class="countdown">
         <div class="time-box"><span id="days"></span>Days</div>
@@ -535,7 +549,7 @@ db.on("value", snapshot=>{
   });
 });
 
-const eventDate=new Date("May 16, 2026 15:00:00").getTime();
+const eventDate=new Date("May 16, 2026 12:00:00").getTime();
 setInterval(()=>{
   const d=eventDate-new Date().getTime();
   document.getElementById('days').innerText=Math.floor(d/(1000*60*60*24));
