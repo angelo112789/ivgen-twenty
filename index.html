@@ -527,11 +527,23 @@ button:hover {
 </section>
 
 <script>
+// const firebaseConfig = {
+//   apiKey: "AIzaSyA9Z3TmvbviXlqF4bq5HTezi-vyio9XM-o",
+//   authDomain: "rsvp-web-app-ivgen.firebaseapp.com",
+//   databaseURL: "https://rsvp-web-app-ivgen-default-rtdb.asia-southeast1.firebasedatabase.app/",
+// };
+
 const firebaseConfig = {
   apiKey: "AIzaSyA9Z3TmvbviXlqF4bq5HTezi-vyio9XM-o",
   authDomain: "rsvp-web-app-ivgen.firebaseapp.com",
-  databaseURL: "https://rsvp-web-app-ivgen-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  databaseURL: "https://rsvp-web-app-ivgen-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "rsvp-web-app-ivgen",
+  storageBucket: "rsvp-web-app-ivgen.firebasestorage.app",
+  messagingSenderId: "457059517660",
+  appId: "1:457059517660:web:35f333b5a79bfa951da019",
+  measurementId: "G-2FQL890BX8"
 };
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database().ref("attendees");
 
